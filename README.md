@@ -1,1 +1,1 @@
-# gt_testsrv
+# Simple example
