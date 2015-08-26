@@ -1,0 +1,261 @@
+2002-08-12  Stuart Caie   <kyzer@4u.net>
+
+	* cabextract.c: now prints all errors and warnings to stderr
+	rather that stdout. I finally noticed that perror() prints to
+	stderr, and I want to follow suit.
+
+2002-08-11  Stuart Caie   <kyzer@4u.net>
+
+	* extract_file(): now prints out the correct cabinet name in error
+	messages, in the case of files which are split over multiple
+	cabinet files and the 2nd or later split cabinet contains the
+	error.
+
+	* QTMdecompress(): fixed the QTM decoding error - basically, Matthew
+	used the bitstream reading macros from my LZX decompressor. Sadly,
+	these macros can only guarantee at maximum 17 bits available in the
+	bit buffer, and Quantum uses up to 19 bits. I rewrote the Quantum
+	bit buffer macros to be multi-pass (and therefore slower) so they
+	can get the requisite number of bits.
+
+	* QTMinit(): after fixing the decoding bug, I noticed that files
+	always failed extraction when going to a second folder. It turns out
+
+	* configure.in: added limits.h to the list of checked includes
+
+	* cabextract.c: ULONG_BITS now defined in terms of CHAR_BIT from
+	<limits.h> rather than fixed to 8 bits per char. Oddly, my system
+	seems to include <linux/limits.h> rather than <limits.h>.  So, for
+	people like me, I also define CHAR_BIT to be 8 if it's not already
+	defined.
+
+2002-07-29  Stuart Caie   <kyzer@4u.net>
+
+	* cabextract.c: The Ministry of Sensible Naming dictates that 
+	load_cab() be renamed find_cabs_in_file(), and lose the 'search'
+	argument. Calls to load_cab() where the search argument = 0 (i.e.,
+	when loading spanning cabinets) be changed to load_cab_offset(x,0).
+
+2002-07-25  Stuart Caie  <kyzer@4u.net>
+
+	* load_cab(): Bah! off_t is defined as a signed long int, and
+	not an unsigned long int as I had previously thought. This means the
+	'valid cabinet' comparisions may fail. I have fixed this by making
+	these comparisons unsigned.
+
+	* cabinfo.c: added the new search mechanism to cabinfo.
+
+2002-07-25  Stuart Caie   <kyzer@4u.net>
+
+	* process_cabinet(): rewrote the loading mechanism. Uses the new
+	load_cab() to get a list of cabinets in the base file. Also does
+	bi-directional loading of spanning cabinets.
+
+	* load_cab(): now takes a 'search' parameter. if search=0, the old
+	loading behaviour is performed, but if search=1, it now does the
+	exhaustive search for all matching cabinets and tries to load
+	them. If a load succeeds, it skips that section of the
+	file. Therefore, all embedded cabinets are found, yet most of the
+	file does not need to be searched.
+
+	* cabinet_find_header(): removed, see above. Also, in shifting the
+	search, I altered the search mechanism. It now uses a state
+	machine to get around border cases, rather than the flaky 'save
+	the last 20 bytes and put them at the start the next time around'.
+	
+	* cabinet_read_entries(): now checks the MSCF signature, as there
+	is no longer a cabinet_find_header() to do this.
+	
+2002-07-23  Stuart Caie   <kyzer@4u.net>
+
+	* LZXdecompress(), QTMdecompress(): On systems where the LZ window
+	pointer is in "low memory", runsrc (window pointer - match offset)
+	could be below address 0, which wraps around to the end of memory,
+	so it appears runsrc is ahead of the LZ window, and so it does not
+	need 'fixing' before the match copy. Therefore the match data is
+	read from the incorrect, high address. Thanks to the NetBSD team
+	for discovering this and providing the patch.
+
+2002-07-22  Stuart Caie   <kyzer@4u.net>
+
+	* file_close(): now honours your umask settings when extracting
+	files. Thanks to the NetBSD team for the patch.
+	
+	* cabinet_seek(), cabinet_skip(): these now print errors if
+	fseek() returns an error.
+	
+	* QTMdecompress(): finally! Added an implementation of the Quantum
+	method which was researched and written by Matthew Russoto. Many
+	thanks to him for all the hard work he did to produce this. I
+	tidied up the code to be more my style (and to be quite a bit
+	faster by inlining the bit buffer, H, L and C), but it's still all
+	his code running.
+
+	* find_next_cabinet_file(): this is a new function which finds the
+	"next cabinet" by opening the directory it would be in and reading
+	each filename case-insensitively. It also handles any such "next
+	cabinets" with directory elements (delimited with MS-DOS
+	backslashes).
+
+	* process_cabinet(): now uses find_next_cabinet_file() to get the
+	next cabinet file. This function also replaces the hack that gets
+	any directory path which might be embedded in the base cabinet
+	filename (as mentioned on the command line).
+
+2002-07-21  Stuart Caie   <kyzer@4u.net>
+
+	* file_close(): fixed off-by-one error in setting the extracted
+	file date. Thanks to Claus Rasmussen.
+
+2002-07-20  Stuart Caie   <kyzer@4u.net>
+
+	* file_open(): now removes any leading slashes from the name of
+	the file to be extracted. Thanks to the James Henstridge and
+	David Leonard for patches.
+
+	* ensure_filepath(): now does not try to examine the directory ""
+	(i.e. no directory at all) if given an absolute path (one that
+	start with a slash). Thanks to the James Henstridge for the patch.
+
+2002-04-30  Stuart Caie   <kyzer@4u.net>
+
+	* cabextract.spec.in: changed the fixed version number to @VERSION@
+
+2002-04-06  Stuart Caie   <kyzer@4u.net>
+
+	* Makefile.am, configure.in: used the guide no_getopt_long.txt
+	included with the gengetopt package to add getopt_long
+	configuration to cabextract. Hopefully it all works now. Thanks to
+	the many people who pointed out this problem and to the many
+	people who offered solutions.
+	
+2001-09-06  Stuart Caie   <kyzer@4u.net>
+	
+	* Makefile.am, configure.in: made cabextract.spec one of the auto-
+	generated files. Now I can do 'make distcheck' here to build a
+	distribution which can be installed using 'rpm -tb
+	cabextract-0.6.tar.gz'. Thanks to Daniel Resare for the know-how.
+	
+2001-08-20  Stuart Caie   <kyzer@4u.net>
+
+	* Makefile.am: added an LDADD line for cabextract's LIBOBJS
+	generated by configure. This means the AC_REPLACE_FUNCS line
+	should actually have an effect.
+
+	* configure.in: Removed getopt_long and mktime from the
+	AC_CHECK_FUNCS, as this is done anyway.
+	
+2001-08-19  Stuart Caie   <kyzer@4u.net>
+
+	* Makefile.am, configure.in, cabextract.c: moved the GNU getopt
+	sources to become an automatically added dependency if
+	getopt_long() can't be found in the standard library, just like
+	mktime() is handled. The getopt_long(), struct option and optarg
+	and optind definitions are taken from getopt.h if possible. If
+	they're not there, but getopt_long() was found with standard
+	includes files, it's assumed they're defined in the standard
+	include files. Otherwise, we define them ourselves.
+
+	* cabextract.c: now gets VERSION defined from configure via
+	config.h.
+
+	* decompress(): if the 'fix' option was used, the output buffer
+	would always be cleared before block decompression. A nice idea,
+	but the MSZIP method likes to keep the output buffer between
+	blocks. Thanks to Fernando Trias for spotting this. Stopped
+	clearing the output buffer.
+	
+	* main(): the 'fix' variable wasn't initialised to zero, so on
+	some architectures, where the stack-space allocated to the
+	variable isn't cleared to zero, you always got the 'fix' option
+	selected. See above for why this was bad.
+
+	* process_cabinet(): now prints "Finished processing cabinet" when
+	finished extracting, instead of just a blank line. Still prints
+	blank lines for listing files.
+	
+2001-08-05  Stuart Caie   <kyzer@4u.net>
+
+	* Makefile.am: the manpage wasn't included in the distribution.
+	Fixed and re-issued the 0.3 release.
+	
+2001-08-02  Stuart Caie   <kyzer@4u.net>
+
+	* decompress(): now takes a 'fix' flag, which causes MSZIP errors
+	to be ignored.
+
+	* cabinet_get_entries(): now keeps the printable information about
+	previous and next cabinet parts
+
+	* process_cabinet(): now prints the printable information about
+	the next cabinet part in a multi-part cabinet
+	
+	* file_open(): now prepends a given directory if wanted, and can
+	make the filename lowercase if wanted.
+
+	* main(): changed to using getopt_long to parse arguments. Added
+	-L (lowercase), -d (output to directory), -f (fix corrupt cabs),
+	-h (help), -q (quiet) and -v was recycled to become --version,
+	when used on its own.
+
+	* LZXdecompress(): major bug fixed; the updated R0, R1 and R2 in
+	uncompressed blocks were being stored in the uncomp_state block,
+	not local variables. At the end of the function, the local values
+	are always written back to the uncomp_state block. So the values
+	placed there by the uncompressed block header were always
+	overwritten. Thanks to Pavel Turbin for providing an example of
+	this.
+	
+	* rindex(): this is the BSD precursor of the ANSI standard
+	function strrchr(). Oops! Now uses strrchr(), or rindex() if
+	strrchr() isn't available.
+
+	* cabinet_find_header(): now prints an error message if it can't
+	find a header.
+	
+2001-04-30  Stuart Caie   <kyzer@4u.net>
+
+	* fixed includes to include both <strings.h> and <string.h> if
+	they both exist, and made some signedness conversions explicit.
+	This should let cabextract compile with SGI's native
+	compiler. Thanks to Markus Nullmeier for the patch.
+	
+2001-03-04  Stuart Caie   <kyzer@4u.net>
+
+	* main(): now prints the version of cabextract in the copyright
+	line.
+	
+	* cabinet_find_header(): now searches any kind of file, not just
+	files beginning with 'MZ' header. Also, always searches entire
+	file.  This slows the search down, but increases the usefulness of
+	the search overall, IMHO. Thanks to Eric Sharkey for pointing this
+	out.
+	
+	* LZXdecompress(): fixed problem in intel decoding: E8 must not
+	appear in the last 10 bytes, not the last 6 bytes... Thanks to Jae
+	Jung who pointed this out to me. I didn't believe him at first,
+	but he was quite right. Also thanks to Antoine Amanieux for
+	providing example files affected by this.
+
+	* process_cabinet(): now extends multipart cabinet filenames to be
+	in the same directory as the base cabinet.
+
+	* cabinet_open(): now only lowercases the filename part of a
+	cabinet name, not the path part.
+	
+2001-03-03  Stuart Caie   <kyzer@4u.net>
+
+	* LZXdecompress(): fixed LZX bit buffer exhaustion in where
+	READ_HUFFSYM() requests more bits than the buffer actually
+	contains: top-of-loop overflow check now allows for the input
+	pointer to be 16 bits past the end of the buffer, but checks to
+	ensure none of those 16 bits are actually used. Also increased
+	decomp_state.inbuf by two bytes and clear the two bytes after
+	loaded block in decompress(). Thanks to Jae Jung for pointing out
+	this bug, and for providing example files which exposed the bug.
+
+2001-02-26  Stuart Caie <kyzer@4u.net>
+
+	* added configure script / makefile using automake.
+
+	* file_close(): now sets the timestamp on extracted files.

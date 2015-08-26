@@ -1,0 +1,18 @@
+Begin3
+Title:          UNACE -- extract, test and view ACE archives
+Version:        1.2b
+Entered-date:   12MAY1999
+Description:    The UNACE utility is a freeware program distributed with
+                source code and developed for extracting, testing and viewing
+                the contents of archives created with the ACE archiver.
+Keywords:       archiver, uncompress, unpack, data compression
+Author:         Marcel Lemke <mlemke6413@aol.com>
+Maintained-by:  Marcel Lemke <mlemke6413@aol.com>
+Original-site:  http://members.aol.com/mlemke6413/
+                30452 unacepub.zip
+Primary-site:   ftp://sunsite.unc.edu/pub/Linux/utils/compress/
+                43kB unace-1.2b.tar.gz
+Platforms:      UNACE are known to run on the following platforms:
+                DOS, OS/2, Win32, Unix, Amige
+Copying-policy: Copyrighted but freely distributable.
+End

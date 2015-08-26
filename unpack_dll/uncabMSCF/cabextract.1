@@ -1,0 +1,60 @@
+.TH CABEXTRACT 1 "August 2, 2001"
+.SH NAME
+cabextract \- program to extract files from Microsoft cabinet (.cab) archives
+.SH SYNOPSIS
+.B cabextract
+.RB [ -v ]
+.RB [ -h ]
+.RB [ -l ]
+.RB [ -q ]
+.RB [ -L ]
+.RB [ -f ]
+.RB [ -d \fIdir\fP ]
+.I " cabinet files" ...
+.SH DESCRIPTION
+.B cabextract
+is a program that un-archives files in the
+Microsoft cabinet file format (.cab) or any binary file which contains
+an embedded cabinet file (frequently found in .exe files).
+.PP
+.B cabextract
+will extract all files from all cabinet files specified on the command line
+.PP
+To extract a multi\-part cabinet consisting of several
+files, only give the
+.I first
+file as an argument to
+.B cabextract
+as it will automatically look for the remaining files.
+.SH OPTIONS
+A summary of options is included below.
+.TP
+.B \-v
+If given alone on the command line, prints the version of
+.B cabextract
+and exits. Given with a list of cabinet files, it will list the contents
+of the cabinet files.
+.TP
+.B \-h
+Prints a page of help and exits.
+.TP
+.B \-l
+Lists the contents of the given cabinet files, rather than extracting them.
+.TP
+.B \-q
+When extracting cabinet files, supresses all messages except errors and
+warnings.
+.TP
+.B \-L
+When extracting cabinet files, makes each extracted file's name lowercase.
+.TP
+.B \-f
+When extracting cabinet files, will ignore corrupted MSZIP blocks. A warning
+will be printed if a corrupted MSZIP block is encountered.
+.TP
+.B \-d \fIdir\fP
+Extracts all files into the directory \fIdir\fP .
+.SH AUTHOR
+This manual page was written by Stuart Caie <kyzer@4u.net>, based on
+the one written by Eric Sharkey <sharkey@debian.org>, for the Debian
+GNU/Linux system.

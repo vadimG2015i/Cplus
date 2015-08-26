@@ -1,0 +1,13 @@
+Principal author: Stuart Caie <kyzer@4u.net>
+
+Based on specification documents from Microsoft Corporation
+Quantum decompression researched and implemented by Matthew Russoto
+Huffman code adapted from unlzx by Dave Tritscher.
+InfoZip team's INFLATE implementation adapted to MSZIP by Dirk Stoecker.
+Major LZX fixes by Jae Jung.
+Japanese manual page by Katsumi Saito.
+Manual page and Debian packaging by Eric Sharkey.
+FreeBSD packaging by Maxim Sovolev.
+NetBSD packaging by Ben Collver et al.
+SuSE packaging by Stefan Dirsch
+RPM spec file by Soos Peter.

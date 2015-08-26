@@ -1,0 +1,127 @@
+                i6comp v0.20 Release Notes
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                (InstallShield v6.x CAB Util)
+                 -] fOSSiL - Jun-16-2000 [-
+                 -] Morlac - Dec-27-2000 [-
+
+
+	1. INTRODUCTION  <-- Read it or DIE, DIE, DIE !!!
+	2. INSTALLATION
+	3. CONCEPTS
+	4. BRIEF HELP
+	5. UNSUPPORTED
+	6. THAT'S IT
+	7. BUGS
+
+
+1. INTRODUCTION
+---------------
+   Under pressure from friends I am updating i5comp, giving birth to
+i6comp in the process. This is the second attempt - I'll try to keep
+it short.
+
+
+Changes from i5comp (READ IT ALL):
+
+---------------------- IMPORTANT------------------------------
+Read Changes.txt as well. It contains more information as well.
+You will miss some of the features if you dont.
+
+1) No more ZDxxx.DLL - compression/decompression (deflate) routines are
+statically linked in.
+
+2) No need to Convert to Single-Volume for any operations (see P.3)
+
+3) All IShield engine files are now stuck into data1.cab, so convertion to
+single-volume cabinet has been changed. Conversion leaves data1.cab intact
+and gathers everything else into data2.cab.
+   Data1.cab contains all installation and uninstallation files and
+is used by Uninstaller, and data2.cab contains all 'user' files.
+
+4) Add command will now replace the files with the same name and path
+within the cabinet (i5comp would add them and create duplicates no matter
+what).
+
+5) IShield Corp. screwed me over again by using '<' and '>' characters
+in the kernel File Group names. These characters will be mapped to
+'[' and ']' respectivly when File Group name is used in filesys paths.
+
+6) Some uncompressed and 'uncabineted' files will also appear in listings.
+I filtered some of them out, but haven't found a good way to get rid of
+the rest of them yet.
+
+7) Code can be ported to any Intel *ix with minimal modifications
+
+
+
+2. INSTALLATION
+---------------
+   Stick 'i6comp.exe' wherever u want (preferrably somewhere in PATH).
+
+
+3. CONCEPTS
+-----------
+   1) COMMAND SYNTAX
+   Unlike weird icomp.exe, i6comp mimics the command syntax of ARJ/RAR
+style compressors, but the big difference is that the established syntax
+order can not be broken, meaning that u have to specify <cmd> [-opts] <cab>
+in this order, no mixing is allowed.
+   Just run i6comp with no parameters to see the explanation of syntax,
+commands and options.
+
+   2) FILE INDEX
+   Every file inside a cab has a fixed index. U can see that index when u
+do 'i6comp l your.cab' in the 'Ind' column. InstallShield allows duplicate
+filenames within one cab, so u might have to referr to the file by its
+index to ensure that u extract/replace the right one.
+
+   3) MASK MATCHING
+   In addition to the references to files by name and index u can use
+filemasks ('fmask' for short in the command line help). The mask matching in
+i6comp is extended compared to standard DOS one. U can use, for example,
+masks like this : a*b.dll, *b?c?d*.d*, etc. For example, '*b?c*.dll' will
+match with 'boc.dll', 'bac12.dll', 'aablc.dll', but will NOT match 'bc.dll'.
+
+   4) FILEGROUPS
+   Every file inside a cab belongs to some FileGroup. Because of this
+structure, u have to specify a FileGroup with a -g option when adding files
+to a cab. Alternatively, u cab use -f mode of i6comp, in which FileGroups
+are treated as directories.
+
+
+4. BRIEF HELP
+-------------
+This is extra help for some rarely used functionality.
+
+Options:
+	-f: treat FileGroups as directories (usefull for GUI, wrappers)
+	    FileGroups will be printed and interpreted as directories from
+	    the root of the cab. For any commands that modify the cab
+	    (i.e. Add, Delete, Replace and Zero) only 1 FileGroup may be
+	    used at a time.
+
+
+5. UNSUPPORTED
+--------------
+   1) CAB creation functionality was never intended and required too much
+effort, especially since u can create CABs with InstallShield itself.
+
+
+6. THAT'S IT
+------------
+U are probably already bored to death, so I will be brief.
+Thanx to all who took interest in my util and helped with fixing bugs.
+
+7. BUGS
+-------
+I know some are still lurking here and there, so report them or even
+better, fix 'em and tell me about 'em.
+You can contact me at:
+morlac@hotmail.com
+
+
+GREETZ go to : Acpizer, Animadei, bK, BlackMage, Cooly, Crypto, Cybr Wolf,
+~~~~~~~~~~~~~~ Devil, djHD, Domnar, Ducky, Ghiribizzo, G-RoM, Groo, Ice,
+               Ignoramus, Jacky, John Astig, Junior Mafia, Krk, MtD, MustDie,
+               Karnage, LiuTaoTao, LordByte, Marquis, Muffin, Pain, The Owl,
+               Razzi, Saint Tok, Sensi, Stone, Xoanon

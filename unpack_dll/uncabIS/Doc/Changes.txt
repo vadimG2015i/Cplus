@@ -1,0 +1,58 @@
+Changes by Morlac - 27/Dec/2000
+-------------------------------
+
+1- is6cab.h
+   Added password to tagCABHEADER -- still not sure about its size limit --
+   Its a non-encypted string(dont know about the future though).
+   Not needed for i6comp but for those who want
+   to work with iscabvu.exe from installshield corp. take a look at
+   offset 0x54 of data1.hdr
+   
+   Added Component status as a bitfield                 -- typedef struct tagCompStatus --		    
+   Added Component attributes as a bitfield             -- typedef struct tagCompAttr --    
+   Added FileGroup Overwrite attributes as a bitfield   -- typedef struct tagFG_overwrite --
+   Modified FileGroup attributes to BitFields           -- typedef struct tagFG_Attrs --
+   Found that "struct tagSETUPTYPEHEADER" is part of struct tagSETUPTYPEDESC
+   	modified "struct tagSETUPTYPEDESC" to include a struct of the above
+   	as a member.
+ 
+
+2- i6comp.c
+
+  a) Added verbose option mostly for debugging and evaluation.
+     -v activates it.
+
+  b) ListComponents() modified to display all known info about components??
+     Any ideas about COMP_ATTR_******* There seems to be other used bits but
+     couldnt figure out what they mean.
+     - Need to test with password protected and encypted packages.
+     Use -v for the additional info.
+   
+  c) ListFileGroups() has been modified to display all known info about filegroups.
+     Use -v for the additional info.
+   
+  d) ListSetupTypes() modified to display setup components as well if in verbose
+     mode. Now i can say that this func is complete.
+     Use -v for the additional info.
+   
+  e) CabBasedFileList() modified.
+     -f (treat filegoups as directories) when used with commands 'e' and 'x'
+     extract files to their FileGroup directories. Letters '<>' are mapped to
+     '[]'. When used with command 'l' adds the filegroup to the path.
+     Note that a pure filegroup will have a index of -1.
+   
+  f) Fixed a bug when passing anything other than data(%d).(%s) as a cabinet name.
+     Now passing data.cab will be taken as data1.cab
+     
+  g) ListFiles() modified.
+     i6comp l -f data1.cab "file.ext" will no longer display all file groups.
+     Only info about that file will be displayed.
+     
+  h) small errors that i introduced.
+   
+NOTE:
+   Dont use '\' followed by nothing in filegroup names. Causes problems for commandline
+   parsing done by windows for some reason.
+   ie. "<Engine>SelfRegistering\" wont work but"<Engine>SelfRegistering\*" works
+   fine. Am i missing something about commandline parsing?
+ 

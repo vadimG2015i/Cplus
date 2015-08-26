@@ -1,0 +1,43 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Tes - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\GVI~1.IBP\LOCALS~1\Temp\RSP337C.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/Tes.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\RELEASE_!\271003\Tes\TesDlg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\GVI~1.IBP\LOCALS~1\Temp\RSP337C.tmp" 
+Creating command line "link.exe /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Tes.pdb" /debug /machine:I386 /out:"Debug/Tes.exe" /pdbtype:sept  ".\Debug\StdAfx.obj" ".\Debug\Tes.obj" ".\Debug\TesDlg.obj" ".\Debug\Tes.res" "..\Debug\unpack.lib" "
+<h3>Output Window</h3>
+Compiling...
+TesDlg.cpp
+d:\release_!\271003\uncabmscf\cabextract.h(2059) : warning C4101: 'utb' : unreferenced local variable
+d:\release_!\271003\uncabmscf\cabextract.h(2832) : warning C4101: 'entry' : unreferenced local variable
+d:\release_!\271003\uncabis\i6comp.h(70) : warning C4200: nonstandard extension used : zero-sized array in struct/union
+d:\release_!\271003\uncabis\i6comp.h(78) : warning C4200: nonstandard extension used : zero-sized array in struct/union
+d:\release_!\271003\uncabis\i6comp.h(83) : warning C4200: nonstandard extension used : zero-sized array in struct/union
+d:\release_!\271003\unlha\lha\lha_macro.h(361) : warning C4005: 'NT' : macro redefinition
+        d:\release_!\271003\unarj\defines.h(144) : see previous definition of 'NT'
+d:\release_!\271003\unlha\lha\lha_macro.h(370) : warning C4005: 'NC' : macro redefinition
+        d:\release_!\271003\unrar\compress.hpp(13) : see previous definition of 'NC'
+d:\release_!\271003\unlha\lha\lha_macro.h(373) : warning C4005: 'NPT' : macro redefinition
+        d:\release_!\271003\unarj\defines.h(149) : see previous definition of 'NPT'
+d:\release_!\271003\unlha\lha\unlha.h(175) : warning C4005: '_export' : macro redefinition
+        d:\release_!\271003\untar\tar32api.h(107) : see previous definition of '_export'
+d:\release_!\271003\unlha\lha\unlha.h(584) : warning C4005: 'ERROR_END' : macro redefinition
+        d:\release_!\271003\untar\tar32api.h(348) : see previous definition of 'ERROR_END'
+D:\RELEASE_!\271003\Tes\TesDlg.cpp(283) : warning C4390: ';' : empty controlled statement found; is this the intent?
+Linking...
+
+
+
+<h3>Results</h3>
+Tes.exe - 0 error(s), 11 warning(s)
+</pre>
+</body>
+</html>
