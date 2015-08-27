@@ -1,0 +1,1 @@
+# Simple example  create window with WINAPI and messages maps
