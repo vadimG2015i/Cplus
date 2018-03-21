@@ -1,0 +1,33 @@
+syntax = "proto3";
+                
+package GRPCTestApi;
+
+message GetTimeRequest {
+   string  currenttime = 1;
+}
+
+message GetTimeResponse {
+   string currenttime = 1;
+}
+
+message GetServerNameRequest {
+   string name = 1;
+}
+
+message GetServerNameResponse {
+   string name = 1;
+}	
+
+message ConvertRequest {
+   string conv = 1;
+}
+
+message ConvertResponse {
+   string conv = 1;
+}
+
+service GRPCTestApiSrv {
+  rpc GetTime(GetTimeRequest) returns (GetTimeResponse) {}
+  rpc GetServerName(GetServerNameRequest ) returns (GetServerNameResponse) {}
+  rpc Convert(ConvertRequest) returns (ConvertResponse) {}
+}
