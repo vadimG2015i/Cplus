@@ -8,3 +8,4 @@
  Winapi app with message exchange
 
  Unpack library from open source(unzip, untar etc.)
+ GRPC server-client example 
