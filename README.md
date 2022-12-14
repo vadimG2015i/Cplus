@@ -1,4 +1,4 @@
-# Simple example
+# Simple examples
  Qt service with  logcxx log
 
  Tcp MFC Server - Client  with directory monitor
